@@ -17,7 +17,6 @@ export class AppComponent {
   constructor(public http: HttpClient) { }
 
   static getfiletext(str) {
-    console.log(str);
     this.jsonfile = str;
   }
   convert2() {
@@ -32,6 +31,7 @@ export class AppComponent {
       console.log("not json");
       return;
     }
+    this.json = AppComponent.jsonfile;
     this.http.post('/api/jsontocsv/', AppComponent.jsonfile, config).subscribe(res => {
       this.csv = res["data"];
     }, err => {
