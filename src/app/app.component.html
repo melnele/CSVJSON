@@ -8,3 +8,6 @@
   <textarea id="csv" rows="20" cols="45">{{csv}}
   </textarea>
 </div>
+<input type="file" (change)="fileChange($event)" placeholder="Upload file" accept=".json">
+
+<button (click)=convert2() style="margin-right: 10ex">Convert File</button>
