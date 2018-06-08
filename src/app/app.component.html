@@ -1,12 +1,15 @@
-<div style="text-align:center">
-  <h1>{{ title }}</h1>
-</div>
+<div class="container">
+  <div style="text-align:center">
+    <h1>{{ title }}</h1>
+  </div>
 
-<div>
-  <textarea type="text" id="json" rows="20" cols="45" style="margin-right: 10ex" [(ngModel)]="json"></textarea>
-  <button (click)=convert() style="margin-right: 10ex">Convert</button>
-  <textarea id="csv" rows="20" cols="45">{{csv}}</textarea>
-</div>
-<input type="file" (change)="fileChange($event)" placeholder="Upload file" accept=".json">
+  <div>
+    <textarea type="text" id="json" rows="15" cols="38" class="form-group input-lg" [(ngModel)]="json"></textarea>
+    <button type="button" class="btn btn-primary" (click)=convert()>Convert</button>
+    <textarea id="csv" rows="15" cols="38" class="form-group input-lg">{{csv}}</textarea>
+    <button type="button" class="btn btn-primary" (click)="downloadFile()">Download</button>
+  </div>
+  <input class="input" type="file" (change)="fileChange($event)" placeholder="Upload file" accept=".json">
 
-<button (click)=convert2() style="margin-left: 10ex">Convert File</button>
+  <button type="button" class="btn btn-primary" (click)=convert2()>Convert File</button>
+</div>

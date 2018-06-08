@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { send } from 'q';
-import { convertInjectableProviderToFactory } from '@angular/core/src/di/injectable';
 
 @Component({
   selector: 'app-root',
@@ -20,39 +18,40 @@ export class AppComponent {
     this.jsonfile = str;
   }
   convert2() {
+    this.json = AppComponent.jsonfile;
+    this.change(AppComponent.jsonfile);
+  }
+  convert() {
+    this.change(this.json);
+  }
+  change(text) {
     var config = {
       headers: {
         'Content-Type': 'application/json'
       }
     };
     try {
-      JSON.parse(AppComponent.jsonfile);
+      JSON.parse(text);
     } catch (e) {
-      console.log("not json");
+      window.confirm('Not a valid JSON');
       return;
     }
-    this.json = AppComponent.jsonfile;
-    this.http.post('/api/jsontocsv/', AppComponent.jsonfile, config).subscribe(res => {
+    this.http.post('/api/jsontocsv/', text, config).subscribe(res => {
       this.csv = res["data"];
     }, err => {
     });
   }
-  convert() {
-    var config = {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    };
-    try {
-      JSON.parse(this.json);
-    } catch (e) {
-      console.log("not json");
-      return;
-    }
-    this.http.post('/api/jsontocsv/', this.json, config).subscribe(res => {
-      this.csv = res["data"];
-    }, err => {
-    });
+
+  downloadFile() {
+    let blob = new Blob([this.csv], { type: 'text/csv;charset=utf-8;' });
+    let dwldLink = document.createElement("a");
+    let url = URL.createObjectURL(blob);
+    dwldLink.setAttribute("href", url);
+    dwldLink.setAttribute("download", "Convertedfile.csv");
+    dwldLink.style.visibility = "hidden";
+    document.body.appendChild(dwldLink);
+    dwldLink.click();
+    document.body.removeChild(dwldLink);
   }
 
   fileChange(event) {

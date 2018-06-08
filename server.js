@@ -1,5 +1,6 @@
 var express = require("express");
 var bodyParser = require("body-parser");
+const Json2csvParser = require('json2csv').Parser;
 
 var app = express();
 app.use(bodyParser.json());
@@ -19,34 +20,15 @@ function handleError(res, reason, message, code) {
 }
 
 app.post("/api/jsontocsv", function (req, res) {
-    var array = typeof req.body != 'object' ? JSON.parse(req.body) : req.body;
-    var str = '';
-    var max = 0;
-    var largest = 0;
-
-    for (var i = 0; i < array.length; i++) {
-        if (Object.keys(array[i]).length > max) {
-            max = Object.keys(array[i]).length;
-            largest = i;
-        }
-        var line = '';
-        for (var index in array[i]) {
-            if (line != '') line += ','
-            line += array[i][index];
-        }
-
-        str += line + '\r\n';
+    try {
+        const parser = new Json2csvParser({ "flatten": true });
+        const csv = parser.parse(req.body);
+        res.status(200).json({
+            err: null,
+            msg: 'OK',
+            data: csv
+        });
+    } catch (err) {
+        console.error(err);
     }
-    var line = '';
-    for (var index in array[largest]) {
-        if (line != '') line += ','
-        line += index;
-    }
-    str = line + '\r\n' + str;
-
-    res.status(200).json({
-        err: null,
-        msg: 'OK',
-        data: str
-    });
 });
