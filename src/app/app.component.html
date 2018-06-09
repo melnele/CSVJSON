@@ -3,7 +3,7 @@
     <h1>{{ title }}</h1>
   </div>
 
-  <div>
+  <div style="text-align:center">
     <textarea type="text" id="json" rows="15" cols="38" class="form-group input-lg" [(ngModel)]="json"></textarea>
     <button type="button" class="btn btn-primary" (click)=convert()>Convert</button>
     <textarea id="csv" rows="15" cols="38" class="form-group input-lg">{{csv}}</textarea>
