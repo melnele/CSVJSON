@@ -1,13 +1,33 @@
 <div class="container">
   <h1 style="text-align:center">{{ title }}</h1>
 
-  <div>
-    <textarea type="text" id="json" rows="15" cols="38" class="form-group input-lg" [(ngModel)]="json"></textarea>
-    <button type="button" class="btn btn-primary" (click)=convert()>Convert</button>
-    <textarea id="csv" rows="15" cols="38" class="form-group input-lg" [(ngModel)]="csv"></textarea>
+  <div class="flex-container">
     <button *ngIf="csv != ''" type="button" class="btn btn-primary" (click)="downloadFile()">Download</button>
+
+    <div>
+      <div class="dropdown">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">From
+          <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li><a href="#">JSON</a></li>
+        </ul>
+      </div>
+
+      <div class="dropdown" style="float:right;">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">To
+          <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li><a href="#">CSV</a></li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <textarea type="text" id="json" rows="15" cols="42" class="form-group input-lg" [(ngModel)]="json"></textarea>
+      <button type="button" class="btn btn-primary" (click)=convert()>Convert</button>
+      <textarea id="csv" rows="15" cols="42" class="form-group input-lg" [(ngModel)]="csv" style="float:right;"></textarea>
+    </div>
   </div>
-  <form class="form-inline" style="margin-top: 5em">
+  <form class="form-inline" style="margin-top: 2em">
     <input id="file" type="file" (change)="fileChange($event)" placeholder="Upload file" accept=".json">
     <input class="btn btn-primary" type="submit" style="margin-left: 15em" value="Convert File" (click)=convert2()>
   </form>
