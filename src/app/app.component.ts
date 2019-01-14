@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+const json2csv = require('json2csv').parse;
 
 @Component({
   selector: 'app-root',
@@ -25,21 +26,12 @@ export class AppComponent {
     this.change(this.json);
   }
   change(text) {
-    var config = {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    };
     try {
-      JSON.parse(text);
+      this.csv = json2csv(JSON.parse(text), { "flatten": true });
     } catch (e) {
       window.confirm('Not a valid JSON');
       return;
     }
-    this.http.post('/api/jsontocsv/', text, config).subscribe(res => {
-      this.csv = res["data"];
-    }, err => {
-    });
   }
 
   downloadFile() {
